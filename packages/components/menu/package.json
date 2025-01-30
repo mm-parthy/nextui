@@ -58,10 +58,10 @@
     "@heroui/theme": "workspace:*",
     "@heroui/system": "workspace:*",
     "@heroui/test-utils": "workspace:*",
-    "clean-package": "2.2.0",
     "@heroui/shared-icons": "workspace:*",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "clean-package": "2.2.0",
+    "react": "18.3.0",
+    "react-dom": "18.3.0"
   },
   "clean-package": "../../../clean-package.config.json"
 }
