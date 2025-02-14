@@ -1,6 +1,9 @@
 import {cn, Divider} from "@heroui/react";
 import Link from "next/link";
 import {Inter, Roboto, Outfit, Lora} from "next/font/google";
+import get from "lodash/get";
+import {useTheme} from "next-themes";
+import {readableColor} from "color2k";
 
 import {useThemeBuilder} from "../provider";
 import {FontName, TemplateType} from "../types";
@@ -32,8 +35,11 @@ const getFontClass = (templateTheme: TemplateType) => {
 };
 
 export function ShowcaseComponent({children, id, name}: ShowcaseComponentProps) {
-  const {font, templateTheme} = useThemeBuilder();
+  const {font, templateTheme, config} = useThemeBuilder();
   const fontClass = font ? FONT_CONFIGS[font]?.className || "" : getFontClass(templateTheme);
+  const {theme} = useTheme();
+
+  const defaultColor = get(config, `${theme}.layoutColor.background`);
 
   return (
     <div
@@ -41,9 +47,16 @@ export function ShowcaseComponent({children, id, name}: ShowcaseComponentProps) 
       id={id}
     >
       <div className="flex items-center gap-x-4">
-        <span className="text-xl font-medium text-black dark:text-white">{name}</span>
+        <span
+          className="text-xl font-medium"
+          style={{
+            color: readableColor(defaultColor!),
+          }}
+        >
+          {name}
+        </span>
         <Link
-          className="text-sm text-blue-400 hover:text-blue-500 dark:text-blue-500 hover:dark:text-blue-600 opacity-0 group-hover:opacity-100 transition-[opacity,color] duration-100 group-hover:flex items-center px-8 py-2"
+          className="text-sm text-blue-400 hover:text-blue-500 dark:text-blue-500 hover:dark:text-blue-600 opacity-0 group-hover:opacity-100 transition-[opacity,color] duration-100 group-hover:flex items-center py-2"
           href={`/docs/components/${name.toLowerCase()}`}
         >
           View in docs

@@ -15,9 +15,7 @@ export function setCssColor(
   const commonColorsEl = document.getElementById(baseColorsId);
   const showcaseEl = document.getElementById(showcaseId);
   const defaultColorEl = document.getElementById(defaultColorsId);
-  const appContainer = document.getElementById("app-container");
   const configurationContainer = document.getElementById("configuration-container");
-  const htmlEl = document.documentElement;
 
   const themeColor = generateThemeColor(value, colorType, theme);
   const heroThemeColor = generateThemeColor(heroUIValue, colorType, theme);
@@ -38,17 +36,13 @@ export function setCssColor(
       commonColorsEl.style.setProperty(`--heroui-${colorType}`, value);
       showcaseEl.style.setProperty(`--heroui-${colorType}`, value);
       defaultColorEl.style.setProperty(`--heroui-${colorType}`, value);
-      appContainer?.style.setProperty(`--heroui-${colorType}`, heroValue);
       configurationContainer?.style.setProperty(`--heroui-${colorType}`, heroValue);
-      htmlEl.style.setProperty(`--heroui-${colorType}`, value);
     } else {
       baseColorEl.style.setProperty(`--heroui-${colorType}-${key}`, value);
       commonColorsEl.style.setProperty(`--heroui-${colorType}-${key}`, value);
       showcaseEl.style.setProperty(`--heroui-${colorType}-${key}`, value);
       defaultColorEl.style.setProperty(`--heroui-${colorType}`, value);
-      appContainer?.style.setProperty(`--heroui-${colorType}-${key}`, heroValue);
       configurationContainer?.style.setProperty(`--heroui-${colorType}-${key}`, heroValue);
-      htmlEl.style.setProperty(`--heroui-${colorType}-${key}`, value);
     }
   });
 }
@@ -90,7 +84,6 @@ export function setCssContentColor(level: 1 | 2 | 3 | 4, value: string, heroValu
   const showcaseEl = document.getElementById(showcaseId);
   const baseColorEl = document.getElementById(baseColorsId);
   const configurationContainer = document.getElementById("configuration-container");
-  const htmlEl = document.documentElement;
 
   const hslValue = hexToHsl(value);
   const heroHslValue = hexToHsl(heroValue);
@@ -105,9 +98,6 @@ export function setCssContentColor(level: 1 | 2 | 3 | 4, value: string, heroValu
     `--heroui-content${level}-foreground`,
     hexToHsl(readableColor(value)),
   );
-
-  htmlEl.style.setProperty(`--heroui-content${level}`, hslValue);
-  htmlEl.style.setProperty(`--heroui-content${level}-foreground`, hexToHsl(readableColor(value)));
 
   configurationContainer?.style.setProperty(`--heroui-content${level}`, heroHslValue);
   configurationContainer?.style.setProperty(

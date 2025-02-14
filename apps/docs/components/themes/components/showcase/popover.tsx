@@ -19,7 +19,9 @@ const SectionBase = ({
   return (
     <Popover color={color === "foreground" ? "default" : color} placement="right" radius={radius}>
       <PopoverTrigger>
-        <Button color={color === "foreground" ? "default" : color}>{color}</Button>
+        <Button className="capitalize" color={color === "foreground" ? "default" : color}>
+          {color}
+        </Button>
       </PopoverTrigger>
       <PopoverContent>
         <div className={className}>

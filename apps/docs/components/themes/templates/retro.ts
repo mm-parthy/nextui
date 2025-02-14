@@ -6,7 +6,7 @@ import {Config} from "../types";
 export const retro: Config = {
   light: {
     defaultColor: {
-      default: "#FFB42A",
+      default: "#ffcf77",
     },
     baseColor: {
       primary: "#FFD34E",

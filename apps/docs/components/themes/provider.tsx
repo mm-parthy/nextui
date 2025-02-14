@@ -56,7 +56,7 @@ const ThemeBuilderContext = createContext<ThemeBuilderContextProps>({
   radiusValue: "md",
   borderWidthValue: "thick",
   templateTheme: "heroui",
-  font: undefined,
+  font: "Inter",
   scaling: 100,
   resetConfig: () => initialConfig,
   setLayoutColor: () => {},

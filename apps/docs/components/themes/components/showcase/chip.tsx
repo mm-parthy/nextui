@@ -26,7 +26,7 @@ const SectionBase = ({
   return (
     <HeroUIChip
       key={radius}
-      className={className}
+      className={clsx(className, "capitalize")}
       color={color}
       isDisabled={isDisabled}
       radius={radius}

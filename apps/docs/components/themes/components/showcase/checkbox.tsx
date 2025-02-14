@@ -23,6 +23,7 @@ const SectionBase = ({
     <HeroUICheckbox
       key={radius}
       defaultSelected
+      className="capitalize"
       classNames={classNames}
       color={color}
       isDisabled={isDisabled}
