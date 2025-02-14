@@ -18,6 +18,7 @@ const loadFeatures = () => import("framer-motion").then((res) => res.domMax);
 export interface ToastProps extends UseToastProps {}
 
 const iconMap = {
+  default: InfoFilledIcon,
   primary: InfoFilledIcon,
   secondary: InfoFilledIcon,
   success: SuccessIcon,
@@ -27,6 +28,7 @@ const iconMap = {
 
 const Toast = forwardRef<"div", ToastProps>((props, ref) => {
   const {
+    severity,
     Component,
     icon,
     loadingIcon,
@@ -56,7 +58,7 @@ const Toast = forwardRef<"div", ToastProps>((props, ref) => {
   });
 
   const customIcon = icon && isValidElement(icon) ? cloneElement(icon, getIconProps()) : null;
-  const IconComponent = iconMap[color] || iconMap.primary;
+  const IconComponent = severity ? iconMap[severity] : iconMap[color] || iconMap.default;
   const customLoadingIcon =
     loadingIcon && isValidElement(loadingIcon)
       ? cloneElement(loadingIcon, getLoadingIconProps())
