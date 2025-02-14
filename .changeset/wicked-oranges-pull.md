@@ -45,7 +45,7 @@
 "@heroui/toast": patch
 "@heroui/tooltip": patch
 "@heroui/user": patch
-"@heroui/react": patch
+"@heroui/react": minor
 "@heroui/system": patch
 "@heroui/system-rsc": patch
 "@heroui/theme": patch
