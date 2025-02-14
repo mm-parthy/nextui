@@ -86,7 +86,6 @@
 "@heroui/test-utils": patch
 ---
 
-
 v2.7.0
 - Tailwind variants upgraded to the latest version, classnames adjusted, tests fixed
 - Bump RA versions
@@ -105,3 +104,4 @@ v2.7.0
   - Performance optimizations and code cleanup
   - RTL support improvements
   - Better type safety and prop validation 
+
