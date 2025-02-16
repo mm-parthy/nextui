@@ -196,7 +196,7 @@ const PromiseToastTemplate = (args: ToastProps) => {
             addToast({
               title: "Toast Title",
               description: "Toast Displayed Successfully",
-              promise: new Promise((resolve) => setTimeout(resolve, 4000)),
+              promise: new Promise((resolve) => setTimeout(resolve, 5000)),
               ...args,
             });
           }}

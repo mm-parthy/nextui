@@ -405,6 +405,14 @@ export function useToast<T extends ToastProps>(originalProps: UseToastProps<T>) 
     [slots, classNames, toastProps, hoverProps, toast, toast.animation, toast.key, opacityValue],
   );
 
+  const getWrapperProps: PropGetter = useCallback(
+    (props = {}) => ({
+      className: slots.wrapper({class: classNames?.wrapper}),
+      ...props,
+    }),
+    [],
+  );
+
   const getIconProps: PropGetter = useCallback(
     (props = {}) => ({
       "aria-label": "descriptionIcon",
@@ -607,6 +615,7 @@ export function useToast<T extends ToastProps>(originalProps: UseToastProps<T>) 
     isProgressBarVisible: !!timeout,
     total,
     index,
+    getWrapperProps,
     getToastProps,
     getTitleProps,
     getContentProps,

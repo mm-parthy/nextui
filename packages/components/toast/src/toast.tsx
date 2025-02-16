@@ -41,6 +41,7 @@ const Toast = forwardRef<"div", ToastProps>((props, ref) => {
     progressBarRef,
     classNames,
     slots,
+    getWrapperProps,
     isProgressBarVisible,
     getToastProps,
     getContentProps,
@@ -78,15 +79,15 @@ const Toast = forwardRef<"div", ToastProps>((props, ref) => {
 
   const toastContent = (
     <Component ref={domRef} {...getToastProps()}>
-      <main {...getContentProps()}>
+      <div {...getContentProps()}>
         {hideIcon && !isLoading
           ? null
           : loadingIconComponent || customIcon || <IconComponent {...getIconProps()} />}
-        <div>
+        <div {...getWrapperProps()}>
           <div {...getTitleProps()}>{props.toast.content.title}</div>
           <div {...getDescriptionProps()}>{props.toast.content.description}</div>
         </div>
-      </main>
+      </div>
       {isProgressBarVisible && (
         <div className={slots.progressTrack({class: classNames?.progressTrack})}>
           <div
