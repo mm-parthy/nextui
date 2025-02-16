@@ -341,12 +341,12 @@ export function useToast<T extends ToastProps>(originalProps: UseToastProps<T>) 
   const getDragElasticConstraints = (placement: string) => {
     const elasticConstraint = {top: 0, bottom: 0, right: 0, left: 0};
 
-    if (placement === "center-bottom") {
+    if (placement === "bottom-center") {
       elasticConstraint.bottom = 1;
 
       return elasticConstraint;
     }
-    if (placement === "center-top") {
+    if (placement === "top-center") {
       elasticConstraint.top = 1;
 
       return elasticConstraint;

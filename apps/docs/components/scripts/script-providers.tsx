@@ -13,18 +13,24 @@ export function ScriptProviders({ isKapaEnabled = true }: { isKapaEnabled?: bool
   }, []);
 
   React.useEffect(() => {
+    function hideKapa() {
     const kapaElements = document.querySelectorAll('[id^="kapa-"]');
-    const display = pathname.includes("toast") ? "none" : "block";
+    const display = pathname === "/docs/components/toast" ? "none" : "block";
 
-    kapaElements.forEach(element => (element as HTMLElement).style.display = display);
-  }, [pathname]);
 
-  if (!isKapaEnabled || !isMounted) {
+      kapaElements.forEach((element) => (element as HTMLElement).style.display = display);
+    }
+
+    setTimeout(() => {
+      hideKapa();
+    }, 500);
+  }, [pathname, isMounted]);
+
+  if (!isKapaEnabled) {
     return null;
   }
 
   return (
-    <>
       <Script
         defer
         data-modal-disclaimer="This is a custom LLM for HeroUI with access to all developer docs (heroui.com/docs) and GitHub Issues and PRs (github.com/heroui-inc/heroui)."
@@ -36,6 +42,5 @@ export function ScriptProviders({ isKapaEnabled = true }: { isKapaEnabled?: bool
         src="https://widget.kapa.ai/kapa-widget.bundle.js"
         strategy="afterInteractive"
       />
-    </>
   );
 }
