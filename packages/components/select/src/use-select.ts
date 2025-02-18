@@ -7,6 +7,7 @@ import {
   mapPropsVariants,
   PropGetter,
   SharedSelection,
+  useLabelPlacement,
   useProviderContext,
 } from "@heroui/system";
 import {select} from "@heroui/theme";
@@ -31,6 +32,7 @@ import {useSafeLayoutEffect} from "@heroui/use-safe-layout-effect";
 import {ariaShouldCloseOnInteractOutside} from "@heroui/aria-utils";
 import {CollectionChildren, ValidationError} from "@react-types/shared";
 import {FormContext, useSlottedContext} from "@heroui/form";
+import {usePreventScroll} from "@react-aria/overlays";
 
 export type SelectedItemProps<T = object> = {
   /** A unique key for the item. */
@@ -346,13 +348,10 @@ export function useSelect<T extends object>(originalProps: UseSelectProps<T>) {
   const {focusProps, isFocused, isFocusVisible} = useFocusRing();
   const {isHovered, hoverProps} = useHover({isDisabled: originalProps.isDisabled});
 
-  const labelPlacement = useMemo<SelectVariantProps["labelPlacement"]>(() => {
-    if ((!originalProps.labelPlacement || originalProps.labelPlacement === "inside") && !label) {
-      return "outside";
-    }
-
-    return originalProps.labelPlacement ?? "inside";
-  }, [originalProps.labelPlacement, label]);
+  const labelPlacement = useLabelPlacement({
+    labelPlacement: originalProps.labelPlacement,
+    label,
+  });
 
   const hasPlaceholder = !!placeholder;
   const shouldLabelBeOutside =
@@ -381,9 +380,8 @@ export function useSelect<T extends object>(originalProps: UseSelectProps<T>) {
         isInvalid,
         labelPlacement,
         disableAnimation,
-        className,
       }),
-    [objectToDeps(variantProps), isInvalid, labelPlacement, disableAnimation, className],
+    [objectToDeps(variantProps), isInvalid, labelPlacement, disableAnimation],
   );
 
   // scroll the listbox to the selected item
@@ -404,6 +402,10 @@ export function useSelect<T extends object>(originalProps: UseSelectProps<T>) {
       }
     }
   }, [state.isOpen, disableAnimation]);
+
+  usePreventScroll({
+    isDisabled: !state.isOpen,
+  });
 
   const errorMessage =
     typeof props.errorMessage === "function"
