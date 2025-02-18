@@ -1,5 +1,31 @@
 # @heroui/toast
 
+## 2.0.3
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
+- Updated dependencies []:
+  - @heroui/shared-icons@2.1.5
+  - @heroui/shared-utils@2.1.6
+  - @heroui/react-utils@2.1.7
+  - @heroui/use-is-mobile@2.2.6
+  - @heroui/spinner@2.2.10
+
+## 2.0.2
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
+- Updated dependencies []:
+  - @heroui/spinner@2.2.9
+  - @heroui/use-is-mobile@2.2.5
+  - @heroui/react-utils@2.1.6
+  - @heroui/shared-icons@2.1.4
+  - @heroui/shared-utils@2.1.5
+
 ## 2.0.1
 
 ### Patch Changes

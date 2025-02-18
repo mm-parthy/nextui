@@ -1,5 +1,27 @@
 # @heroui/progress
 
+## 2.2.10
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
+- Updated dependencies []:
+  - @heroui/shared-utils@2.1.6
+  - @heroui/react-utils@2.1.7
+  - @heroui/use-is-mounted@2.1.5
+
+## 2.2.9
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
+- Updated dependencies []:
+  - @heroui/use-is-mounted@2.1.4
+  - @heroui/react-utils@2.1.6
+  - @heroui/shared-utils@2.1.5
+
 ## 2.2.8
 
 ### Patch Changes

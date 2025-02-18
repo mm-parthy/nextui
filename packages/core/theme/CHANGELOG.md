@@ -1,5 +1,23 @@
 # @heroui/theme
 
+## 2.4.9
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
+- Updated dependencies []:
+  - @heroui/shared-utils@2.1.6
+
+## 2.4.8
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
+- Updated dependencies []:
+  - @heroui/shared-utils@2.1.5
+
 ## 2.4.7
 
 ### Patch Changes

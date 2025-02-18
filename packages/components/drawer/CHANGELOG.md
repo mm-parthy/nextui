@@ -1,5 +1,29 @@
 # @heroui/drawer
 
+## 2.2.11
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
+- Updated dependencies []:
+  - @heroui/framer-utils@2.1.10
+  - @heroui/shared-utils@2.1.6
+  - @heroui/react-utils@2.1.7
+  - @heroui/modal@2.2.11
+
+## 2.2.10
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
+- Updated dependencies []:
+  - @heroui/modal@2.2.10
+  - @heroui/framer-utils@2.1.9
+  - @heroui/react-utils@2.1.6
+  - @heroui/shared-utils@2.1.5
+
 ## 2.2.9
 
 ### Patch Changes

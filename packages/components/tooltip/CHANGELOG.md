@@ -1,5 +1,33 @@
 # @heroui/tooltip
 
+## 2.2.11
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
+- Updated dependencies []:
+  - @heroui/use-safe-layout-effect@2.1.5
+  - @heroui/dom-animation@2.1.5
+  - @heroui/framer-utils@2.1.10
+  - @heroui/shared-utils@2.1.6
+  - @heroui/react-utils@2.1.7
+  - @heroui/aria-utils@2.2.11
+
+## 2.2.10
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
+- Updated dependencies []:
+  - @heroui/use-safe-layout-effect@2.1.4
+  - @heroui/aria-utils@2.2.10
+  - @heroui/dom-animation@2.1.4
+  - @heroui/framer-utils@2.1.9
+  - @heroui/react-utils@2.1.6
+  - @heroui/shared-utils@2.1.5
+
 ## 2.2.9
 
 ### Patch Changes

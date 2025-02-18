@@ -1,5 +1,39 @@
 # @heroui/modal
 
+## 2.2.11
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
+- Updated dependencies []:
+  - @heroui/use-aria-modal-overlay@2.2.7
+  - @heroui/dom-animation@2.1.5
+  - @heroui/framer-utils@2.1.10
+  - @heroui/shared-icons@2.1.5
+  - @heroui/shared-utils@2.1.6
+  - @heroui/use-aria-button@2.2.8
+  - @heroui/react-utils@2.1.7
+  - @heroui/use-disclosure@2.2.6
+  - @heroui/use-draggable@2.1.6
+
+## 2.2.10
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
+- Updated dependencies []:
+  - @heroui/use-aria-button@2.2.7
+  - @heroui/use-aria-modal-overlay@2.2.6
+  - @heroui/use-disclosure@2.2.5
+  - @heroui/use-draggable@2.1.5
+  - @heroui/dom-animation@2.1.4
+  - @heroui/framer-utils@2.1.9
+  - @heroui/react-utils@2.1.6
+  - @heroui/shared-icons@2.1.4
+  - @heroui/shared-utils@2.1.5
+
 ## 2.2.9
 
 ### Patch Changes

@@ -1,5 +1,33 @@
 # @heroui/number-input
 
+## 2.0.3
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
+- Updated dependencies []:
+  - @heroui/use-safe-layout-effect@2.1.5
+  - @heroui/shared-icons@2.1.5
+  - @heroui/shared-utils@2.1.6
+  - @heroui/react-utils@2.1.7
+  - @heroui/button@2.2.13
+  - @heroui/form@2.1.12
+
+## 2.0.2
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
+- Updated dependencies []:
+  - @heroui/button@2.2.12
+  - @heroui/form@2.1.11
+  - @heroui/use-safe-layout-effect@2.1.4
+  - @heroui/react-utils@2.1.6
+  - @heroui/shared-icons@2.1.4
+  - @heroui/shared-utils@2.1.5
+
 ## 2.0.1
 
 ### Patch Changes

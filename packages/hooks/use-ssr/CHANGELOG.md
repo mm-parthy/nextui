@@ -1,5 +1,17 @@
 # @heroui/use-ssr
 
+## 2.1.5
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
+## 2.1.4
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
 ## 2.1.3
 
 ### Patch Changes

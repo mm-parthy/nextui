@@ -1,5 +1,17 @@
 # @heroui/use-clipboard
 
+## 2.1.6
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
+## 2.1.5
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
 ## 2.1.4
 
 ### Patch Changes

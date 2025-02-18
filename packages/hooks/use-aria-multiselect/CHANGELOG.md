@@ -1,5 +1,17 @@
 # @heroui/use-aria-multiselect
 
+## 2.4.7
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
+## 2.4.6
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
 ## 2.4.5
 
 ### Patch Changes

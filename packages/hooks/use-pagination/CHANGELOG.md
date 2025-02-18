@@ -1,5 +1,23 @@
 # @heroui/use-pagination
 
+## 2.2.7
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
+- Updated dependencies []:
+  - @heroui/shared-utils@2.1.6
+
+## 2.2.6
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
+- Updated dependencies []:
+  - @heroui/shared-utils@2.1.5
+
 ## 2.2.5
 
 ### Patch Changes

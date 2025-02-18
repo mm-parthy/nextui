@@ -1,5 +1,31 @@
 # @heroui/dropdown
 
+## 2.3.13
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
+- Updated dependencies []:
+  - @heroui/shared-utils@2.1.6
+  - @heroui/react-utils@2.1.7
+  - @heroui/aria-utils@2.2.11
+  - @heroui/popover@2.3.13
+  - @heroui/menu@2.2.13
+
+## 2.3.12
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
+- Updated dependencies []:
+  - @heroui/menu@2.2.12
+  - @heroui/popover@2.3.12
+  - @heroui/aria-utils@2.2.10
+  - @heroui/react-utils@2.1.6
+  - @heroui/shared-utils@2.1.5
+
 ## 2.3.11
 
 ### Patch Changes

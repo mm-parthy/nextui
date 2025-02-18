@@ -1,5 +1,17 @@
 # @heroui/use-intersection-observer
 
+## 2.2.6
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
+## 2.2.5
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
 ## 2.2.4
 
 ### Patch Changes

@@ -1,5 +1,29 @@
 # @heroui/spinner
 
+## 2.2.10
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
+- Updated dependencies []:
+  - @heroui/shared-utils@2.1.6
+  - @heroui/react-utils@2.1.7
+  - @heroui/system-rsc@2.3.9
+  - @heroui/system@2.4.10
+
+## 2.2.9
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
+- Updated dependencies []:
+  - @heroui/system@2.4.9
+  - @heroui/system-rsc@2.3.8
+  - @heroui/react-utils@2.1.6
+  - @heroui/shared-utils@2.1.5
+
 ## 2.2.8
 
 ### Patch Changes

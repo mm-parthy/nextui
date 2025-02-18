@@ -1,5 +1,23 @@
 # @heroui/use-disclosure
 
+## 2.2.6
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
+- Updated dependencies []:
+  - @heroui/use-callback-ref@2.1.5
+
+## 2.2.5
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
+- Updated dependencies []:
+  - @heroui/use-callback-ref@2.1.4
+
 ## 2.2.4
 
 ### Patch Changes

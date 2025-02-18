@@ -1,5 +1,29 @@
 # @heroui/card
 
+## 2.2.13
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
+- Updated dependencies []:
+  - @heroui/shared-utils@2.1.6
+  - @heroui/use-aria-button@2.2.8
+  - @heroui/react-utils@2.1.7
+  - @heroui/ripple@2.2.11
+
+## 2.2.12
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
+- Updated dependencies []:
+  - @heroui/ripple@2.2.10
+  - @heroui/use-aria-button@2.2.7
+  - @heroui/react-utils@2.1.6
+  - @heroui/shared-utils@2.1.5
+
 ## 2.2.11
 
 ### Patch Changes

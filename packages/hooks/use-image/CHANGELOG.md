@@ -1,5 +1,25 @@
 # @heroui/use-image
 
+## 2.1.6
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
+- Updated dependencies []:
+  - @heroui/use-safe-layout-effect@2.1.5
+  - @heroui/react-utils@2.1.7
+
+## 2.1.5
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
+- Updated dependencies []:
+  - @heroui/use-safe-layout-effect@2.1.4
+  - @heroui/react-utils@2.1.6
+
 ## 2.1.4
 
 ### Patch Changes

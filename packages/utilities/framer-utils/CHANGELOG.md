@@ -1,5 +1,27 @@
 # @heroui/framer-utils
 
+## 2.1.10
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
+- Updated dependencies []:
+  - @heroui/shared-utils@2.1.6
+  - @heroui/use-measure@2.1.5
+  - @heroui/system@2.4.10
+
+## 2.1.9
+
+### Patch Changes
+
+- Fix v2.7.0 release
+
+- Updated dependencies []:
+  - @heroui/system@2.4.9
+  - @heroui/use-measure@2.1.4
+  - @heroui/shared-utils@2.1.5
+
 ## 2.1.8
 
 ### Patch Changes
