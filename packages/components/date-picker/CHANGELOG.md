@@ -1,5 +1,22 @@
 # @heroui/date-picker
 
+## 2.3.15
+
+### Patch Changes
+
+- v2.7.4
+
+- Updated dependencies []:
+  - @heroui/button@2.2.15
+  - @heroui/calendar@2.2.15
+  - @heroui/date-input@2.3.14
+  - @heroui/form@2.1.14
+  - @heroui/popover@2.3.15
+  - @heroui/aria-utils@2.2.12
+  - @heroui/react-utils@2.1.8
+  - @heroui/shared-icons@2.1.6
+  - @heroui/shared-utils@2.1.7
+
 ## 2.3.14
 
 ### Patch Changes
