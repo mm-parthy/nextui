@@ -331,6 +331,7 @@ const CustomToastComponent = (args) => {
               </div>
             ),
             color: color,
+            ...args,
           });
         }}
       >
