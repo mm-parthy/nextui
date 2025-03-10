@@ -232,6 +232,7 @@ export const CodeDemo: React.FC<CodeDemoProps> = ({
           </Tabs>
           {isComponentsPage && (
             <Button
+              disableRipple
               className="absolute rounded-[9px] right-1 top-1 border-1 border-default-200 dark:border-default-100 data-[hover=true]:bg-default-50/80"
               isDisabled={isLoading}
               size="sm"
