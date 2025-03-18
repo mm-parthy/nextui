@@ -12,7 +12,7 @@ import {siteConfig} from "@/config/site";
 import {fonts} from "@/config/fonts";
 import {Navbar} from "@/components/navbar";
 import {Footer} from "@/components/footer";
-import {HeroUIProCallout} from "@/components/docs/heroui-pro-callout";
+import {ProBanner} from "@/components/pro-banner";
 
 export const metadata: Metadata = {
   title: {
@@ -82,7 +82,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
       >
         <Providers themeProps={{attribute: "class", defaultTheme: "dark"}}>
           <div className="relative flex flex-col" id="app-container">
-            <HeroUIProCallout />
+            <ProBanner />
             <Navbar mobileRoutes={manifest.mobileRoutes} routes={manifest.routes} />
             {children}
             <Analytics mode="production" />
