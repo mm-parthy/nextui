@@ -244,9 +244,8 @@ export function useSlider(originalProps: UseSliderProps) {
         disableAnimation,
         hasSingleThumb,
         isVertical,
-        className,
       }),
-    [objectToDeps(variantProps), isVertical, disableAnimation, hasSingleThumb, hasMarks, className],
+    [objectToDeps(variantProps), isVertical, disableAnimation, hasSingleThumb, hasMarks],
   );
 
   const [startOffset, endOffset] = [
@@ -312,11 +311,22 @@ export function useSlider(originalProps: UseSliderProps) {
   };
 
   const getTrackProps: PropGetter = (props = {}) => {
+    const fillWidth = (endOffset - startOffset) * 100;
+
     return {
       ref: trackRef,
       "data-slot": "track",
       "data-thumb-hidden": !!originalProps?.hideThumb,
       "data-vertical": isVertical,
+      ...(hasSingleThumb
+        ? {
+            "data-fill-start": fillWidth > 0,
+            "data-fill-end": fillWidth == 100,
+          }
+        : {
+            "data-fill-start": startOffset == 0,
+            "data-fill-end": startOffset * 100 + fillWidth == 100,
+          }),
       className: slots.track({class: classNames?.track}),
       ...trackProps,
       ...props,

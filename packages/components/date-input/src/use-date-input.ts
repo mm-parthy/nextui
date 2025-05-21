@@ -6,11 +6,12 @@ import type {Calendar} from "@internationalized/date";
 import type {ReactRef} from "@heroui/react-utils";
 import type {DOMAttributes, GroupDOMAttributes} from "@react-types/shared";
 import type {DateInputGroupProps} from "./date-input-group";
+import type {CalendarIdentifier} from "@internationalized/date";
 
 import {useLocale} from "@react-aria/i18n";
 import {createCalendar, CalendarDate, DateFormatter} from "@internationalized/date";
 import {mergeProps} from "@react-aria/utils";
-import {PropGetter, useProviderContext} from "@heroui/system";
+import {PropGetter, useLabelPlacement, useProviderContext} from "@heroui/system";
 import {HTMLHeroUIProps, mapPropsVariants} from "@heroui/system";
 import {useDOMRef} from "@heroui/react-utils";
 import {useDateField as useAriaDateField} from "@react-aria/datepicker";
@@ -122,7 +123,9 @@ export function useDateInput<T extends DateValue>(originalProps: UseDateInputPro
 
   const {locale} = useLocale();
 
-  const calendarProp = createCalendar(new DateFormatter(locale).resolvedOptions().calendar);
+  const calendarProp = createCalendar(
+    new DateFormatter(locale).resolvedOptions().calendar as CalendarIdentifier,
+  );
 
   // by default, we are using gregorian calendar with possible years in [1900, 2099]
   // however, some locales such as `th-TH-u-ca-buddhist` using different calendar making the years out of bound
@@ -191,16 +194,10 @@ export function useDateInput<T extends DateValue>(originalProps: UseDateInputPro
 
   const isInvalid = isInvalidProp || ariaIsInvalid;
 
-  const labelPlacement = useMemo<DateInputVariantProps["labelPlacement"]>(() => {
-    if (
-      (!originalProps.labelPlacement || originalProps.labelPlacement === "inside") &&
-      !props.label
-    ) {
-      return "outside";
-    }
-
-    return originalProps.labelPlacement ?? "inside";
-  }, [originalProps.labelPlacement, props.label]);
+  const labelPlacement = useLabelPlacement({
+    labelPlacement: originalProps.labelPlacement,
+    label,
+  });
 
   const shouldLabelBeOutside = labelPlacement === "outside" || labelPlacement === "outside-left";
 
@@ -210,9 +207,8 @@ export function useDateInput<T extends DateValue>(originalProps: UseDateInputPro
         ...variantProps,
         disableAnimation,
         labelPlacement,
-        className,
       }),
-    [objectToDeps(variantProps), disableAnimation, labelPlacement, className],
+    [objectToDeps(variantProps), disableAnimation, labelPlacement],
   );
 
   const getLabelProps: PropGetter = (props) => {

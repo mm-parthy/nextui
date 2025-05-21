@@ -9,6 +9,7 @@ import {
 import {
   OverlayPlacement,
   ariaHideOutside,
+  keepVisible,
   toReactAriaPlacement,
   ariaShouldCloseOnInteractOutside,
 } from "@heroui/aria-utils";
@@ -42,9 +43,16 @@ export interface Props {
    * @default true
    */
   shouldCloseOnScroll?: boolean;
+  /**
+   * Whether to close the overlay when the user interacts outside it.
+   * @default true
+   */
+  isDismissable?: boolean;
 }
 
-export type ReactAriaPopoverProps = Props & Omit<AriaPopoverProps, "placement"> & AriaOverlayProps;
+export type ReactAriaPopoverProps = Props &
+  Omit<AriaPopoverProps, "placement"> &
+  Omit<AriaOverlayProps, "isDismissable">;
 
 /**
  * Provides the behavior and accessibility implementation for a popover component.
@@ -55,6 +63,7 @@ export function useReactAriaPopover(
   state: OverlayTriggerState,
 ): PopoverAria {
   const {
+    groupRef,
     triggerRef,
     popoverRef,
     showArrow,
@@ -77,12 +86,14 @@ export function useReactAriaPopover(
 
   const isNonModal = isNonModalProp ?? true;
 
+  const isSubmenu = otherProps["trigger"] === "SubmenuTrigger";
+
   const {overlayProps, underlayProps} = useOverlay(
     {
       isOpen: state.isOpen,
       onClose: state.close,
       shouldCloseOnBlur,
-      isDismissable,
+      isDismissable: isDismissable || isSubmenu,
       isKeyboardDismissDisabled,
       shouldCloseOnInteractOutside: shouldCloseOnInteractOutside
         ? shouldCloseOnInteractOutside
@@ -108,7 +119,7 @@ export function useReactAriaPopover(
     containerPadding,
     placement: toReactAriaPlacement(placementProp),
     offset: showArrow ? offset + 3 : offset,
-    onClose: isNonModal && shouldCloseOnScroll ? state.close : () => {},
+    onClose: isNonModal && !isSubmenu && shouldCloseOnScroll ? state.close : () => {},
   });
 
   useSafeLayoutEffect(() => {
@@ -118,10 +129,14 @@ export function useReactAriaPopover(
   }, updatePositionDeps);
 
   useEffect(() => {
-    if (state.isOpen && !isNonModal && popoverRef.current) {
-      return ariaHideOutside([popoverRef.current]);
+    if (state.isOpen && popoverRef.current) {
+      if (isNonModal) {
+        return keepVisible(groupRef?.current ?? popoverRef.current);
+      } else {
+        return ariaHideOutside([groupRef?.current ?? popoverRef.current]);
+      }
     }
-  }, [isNonModal, state.isOpen, popoverRef]);
+  }, [isNonModal, state.isOpen, popoverRef, groupRef]);
 
   return {
     popoverProps: mergeProps(overlayProps, positionProps),

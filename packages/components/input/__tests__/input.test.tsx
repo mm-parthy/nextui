@@ -120,16 +120,94 @@ describe("Input", () => {
 
     const {container} = render(<Input label="test input" onFocus={onFocus} />);
 
-    container.querySelector("input")?.focus();
-    container.querySelector("input")?.blur();
+    act(() => {
+      container.querySelector("input")?.focus();
+    });
+    act(() => {
+      container.querySelector("input")?.blur();
+    });
 
     expect(onFocus).toHaveBeenCalledTimes(1);
+  });
+
+  it("should work with keyboard input", async () => {
+    const {getByTestId} = render(<Input data-testid="input" />);
+
+    const input = getByTestId("input") as HTMLInputElement;
+
+    const user = userEvent.setup();
+
+    act(() => {
+      input.focus();
+    });
+    expect(input.value).toBe("");
+
+    await user.keyboard("Hello World!");
+    expect(input.value).toBe("Hello World!");
+
+    await user.keyboard("[Backspace][Backspace]");
+    expect(input.value).toBe("Hello Worl");
+
+    await user.keyboard("[ArrowLeft][Delete]");
+    expect(input.value).toBe("Hello Wor");
+  });
+
+  it("should highlight text with user multi-clicks", async () => {
+    const {getByTestId} = render(<Input data-testid="input" defaultValue="Hello World!" />);
+
+    const input = getByTestId("input") as HTMLInputElement;
+
+    const user = userEvent.setup();
+
+    expect(input.value).toBe("Hello World!");
+
+    // in react testing library, input dblClick selects the word/symbol, tripleClick selects the entire text
+    await user.tripleClick(input);
+    await user.keyboard("Goodbye World!");
+    expect(input.value).toBe("Goodbye World!");
+
+    await user.tripleClick(input);
+    await user.keyboard("[Delete]");
+    expect(input.value).toBe("");
+  });
+
+  it("should focus input on click", async () => {
+    const {getByTestId} = render(<Input data-testid="input" />);
+
+    const input = getByTestId("input") as HTMLInputElement;
+    const innerWrapper = document.querySelector("[data-slot='inner-wrapper']") as HTMLDivElement;
+    const inputWrapper = document.querySelector("[data-slot='input-wrapper']") as HTMLDivElement;
+
+    const user = userEvent.setup();
+
+    expect(document.activeElement).not.toBe(input);
+
+    await user.click(input);
+    expect(document.activeElement).toBe(input);
+    act(() => {
+      input.blur();
+    });
+    expect(document.activeElement).not.toBe(input);
+
+    await user.click(innerWrapper);
+    expect(document.activeElement).toBe(input);
+    act(() => {
+      input.blur();
+    });
+    expect(document.activeElement).not.toBe(input);
+
+    await user.click(inputWrapper);
+    expect(document.activeElement).toBe(input);
+    act(() => {
+      input.blur();
+    });
+    expect(document.activeElement).not.toBe(input);
   });
 
   it("ref should update the value", () => {
     const ref = React.createRef<HTMLInputElement>();
 
-    const {container} = render(<Input ref={ref} type="text" />);
+    render(<Input ref={ref} type="text" />);
 
     if (!ref.current) {
       throw new Error("ref is null");
@@ -137,8 +215,6 @@ describe("Input", () => {
     const value = "value";
 
     ref.current!.value = value;
-
-    container.querySelector("input")?.focus();
 
     expect(ref.current?.value)?.toBe(value);
   });
@@ -223,6 +299,66 @@ describe("Input", () => {
     await user.click(clearButton);
 
     expect(onClear).toHaveBeenCalledTimes(0);
+  });
+
+  it("should clear value when isClearable and pressing ESC key", async () => {
+    const onClear = jest.fn();
+    const defaultValue = "test value";
+
+    const {getByRole} = render(<Input isClearable defaultValue={defaultValue} onClear={onClear} />);
+
+    const input = getByRole("textbox") as HTMLInputElement;
+
+    expect(input.value).toBe(defaultValue);
+
+    fireEvent.keyDown(input, {key: "Escape"});
+
+    expect(input.value).toBe("");
+
+    expect(onClear).toHaveBeenCalledTimes(1);
+  });
+
+  it("should not clear value when pressing ESC key if input is empty", () => {
+    const onClear = jest.fn();
+
+    const {getByRole} = render(<Input isClearable defaultValue="" onClear={onClear} />);
+
+    const input = getByRole("textbox");
+
+    fireEvent.keyDown(input, {key: "Escape"});
+
+    expect(onClear).not.toHaveBeenCalled();
+  });
+
+  it("should not clear value when pressing ESC key if input is isClearable", () => {
+    const defaultValue = "test value";
+
+    const {getByRole} = render(<Input defaultValue={defaultValue} />);
+
+    const input = getByRole("textbox") as HTMLInputElement;
+
+    fireEvent.keyDown(input, {key: "Escape"});
+
+    expect(input.value).toBe("test value");
+  });
+
+  it("should not clear value when pressing ESC key if input is readonly", () => {
+    const onClear = jest.fn();
+    const defaultValue = "test value";
+
+    const {getByRole} = render(
+      <Input isClearable isReadOnly defaultValue={defaultValue} onClear={onClear} />,
+    );
+
+    const input = getByRole("textbox") as HTMLInputElement;
+
+    expect(input.value).toBe(defaultValue);
+
+    fireEvent.keyDown(input, {key: "Escape"});
+
+    expect(input.value).toBe(defaultValue);
+
+    expect(onClear).not.toHaveBeenCalled();
   });
 });
 
@@ -310,8 +446,8 @@ describe("Input with React Hook Form", () => {
     describe("validationBehavior=native", () => {
       it("supports isRequired", async () => {
         const {getByTestId} = render(
-          <Form data-testid="form">
-            <Input isRequired data-testid="input" label="Name" validationBehavior="native" />
+          <Form data-testid="form" validationBehavior="native">
+            <Input isRequired data-testid="input" label="Name" />
           </Form>,
         );
 
@@ -344,13 +480,12 @@ describe("Input with React Hook Form", () => {
 
       it("supports validate function", async () => {
         const {getByTestId} = render(
-          <Form data-testid="form">
+          <Form data-testid="form" validationBehavior="native">
             <Input
               data-testid="input"
               defaultValue="Foo"
               label="Name"
               validate={(v) => (v === "Foo" ? "Invalid name" : null)}
-              validationBehavior="native"
             />
           </Form>,
         );
@@ -391,8 +526,13 @@ describe("Input with React Hook Form", () => {
           };
 
           return (
-            <Form data-testid="form" validationErrors={serverErrors} onSubmit={onSubmit}>
-              <Input data-testid="input" label="Name" name="name" validationBehavior="native" />
+            <Form
+              data-testid="form"
+              validationBehavior="native"
+              validationErrors={serverErrors}
+              onSubmit={onSubmit}
+            >
+              <Input data-testid="input" label="Name" name="name" />
               <button data-testid="submit" type="submit">
                 Submit
               </button>
@@ -442,7 +582,7 @@ describe("Input with React Hook Form", () => {
     describe('validationBehavior="aria"', () => {
       it("supports validate function", async () => {
         const {getByTestId} = render(
-          <Form data-testid="form">
+          <Form data-testid="form" validationBehavior="aria">
             <Input
               data-testid="input"
               defaultValue="Foo"
@@ -470,7 +610,7 @@ describe("Input with React Hook Form", () => {
 
       it("supports server validation", async () => {
         const {getByTestId} = render(
-          <Form validationErrors={{name: "Invalid name"}}>
+          <Form validationBehavior="aria" validationErrors={{name: "Invalid name"}}>
             <Input data-testid="input" label="Name" name="name" />
           </Form>,
         );

@@ -8,6 +8,7 @@ import type {ButtonProps} from "@heroui/button";
 import type {SupportedCalendars} from "@heroui/system";
 import type {CalendarState, RangeCalendarState} from "@react-stately/calendar";
 import type {RefObject, ReactNode} from "react";
+import type {CalendarIdentifier} from "@internationalized/date";
 
 import {createCalendar, Calendar, CalendarDate, DateFormatter} from "@internationalized/date";
 import {mapPropsVariants, useProviderContext} from "@heroui/system";
@@ -65,6 +66,10 @@ interface Props extends HeroUIBaseProps {
    * @default true
    */
   showHelper?: boolean;
+  /**
+   * The day that starts the week.
+   */
+  firstDayOfWeek?: "sun" | "mon" | "tue" | "wed" | "thu" | "fri" | "sat";
   /**
    * Whether the calendar header is expanded. This is only available if the `showMonthAndYearPickers` prop is set to `true`.
    * @default false
@@ -188,9 +193,13 @@ export function useCalendarBase(originalProps: UseCalendarBasePropsComplete) {
 
   const globalContext = useProviderContext();
 
-  const {locale} = useLocale();
+  const {locale, direction} = useLocale();
 
-  const calendarProp = createCalendar(new DateFormatter(locale).resolvedOptions().calendar);
+  const isRTL = direction === "rtl";
+
+  const calendarProp = createCalendar(
+    new DateFormatter(locale).resolvedOptions().calendar as CalendarIdentifier,
+  );
 
   // by default, we are using gregorian calendar with possible years in [1900, 2099]
   // however, some locales such as `th-TH-u-ca-buddhist` using different calendar making the years out of bound
@@ -205,6 +214,7 @@ export function useCalendarBase(originalProps: UseCalendarBasePropsComplete) {
     topContent,
     bottomContent,
     showHelper = true,
+    firstDayOfWeek,
     calendarWidth = 256,
     visibleMonths: visibleMonthsProp = 1,
     weekdayStyle = "narrow",
@@ -261,6 +271,7 @@ export function useCalendarBase(originalProps: UseCalendarBasePropsComplete) {
         isRange: !!originalProps.isRange,
         isHeaderWrapperExpanded: isHeaderExpanded,
         className,
+        isRTL,
       }),
     [objectToDeps(variantProps), showMonthAndYearPickers, isHeaderExpanded, className],
   );
@@ -323,6 +334,7 @@ export function useCalendarBase(originalProps: UseCalendarBasePropsComplete) {
     maxValue,
     baseProps,
     showHelper,
+    firstDayOfWeek,
     weekdayStyle,
     visibleMonths,
     visibleDuration,

@@ -11,25 +11,27 @@ const select = tv({
       "absolute",
       "z-10",
       "origin-top-left",
+      "flex-shrink-0",
       // Using RTL here as Tailwind CSS doesn't support `start` and `end` logical properties for transforms yet.
       "rtl:origin-top-right",
       "subpixel-antialiased",
       "text-small",
       "text-foreground-500",
       "pointer-events-none",
+      "group-data-[has-label-outside=true]:pointer-events-auto",
     ],
     mainWrapper: "w-full flex flex-col",
     trigger:
       "relative px-3 gap-3 w-full inline-flex flex-row items-center shadow-sm outline-none tap-highlight-transparent",
     innerWrapper:
-      "inline-flex h-full w-[calc(100%_-_theme(spacing.6))] min-h-4 items-center gap-1.5 box-border",
+      "inline-flex h-fit w-[calc(100%_-_theme(spacing.6))] min-h-4 items-center gap-1.5 box-border",
     selectorIcon: "absolute end-3 w-4 h-4",
     spinner: "absolute end-3",
     value: ["text-foreground-500", "font-normal", "w-full", "text-start"],
     listboxWrapper: "scroll-py-6 w-full",
     listbox: "",
     popoverContent: "w-full p-1 overflow-hidden",
-    helperWrapper: "p-1 flex relative flex-col gap-1.5",
+    helperWrapper: "p-1 flex relative flex-col gap-1.5 group-data-[has-helper=true]:flex",
     description: "text-tiny text-foreground-400",
     errorMessage: "text-tiny text-danger",
   },
@@ -143,7 +145,7 @@ const select = tv({
         base: "flex flex-col",
       },
       "outside-left": {
-        base: "flex-row items-center flex-nowrap items-start",
+        base: "flex-row items-center flex-nowrap data-[has-helper=true]:items-start",
         label: "relative pe-2 text-foreground",
       },
       inside: {
@@ -219,7 +221,6 @@ const select = tv({
     variant: "flat",
     color: "default",
     size: "md",
-    labelPlacement: "inside",
     fullWidth: true,
     isDisabled: false,
     isMultiline: false,
@@ -689,6 +690,7 @@ const select = tv({
           "start-2",
           "text-tiny",
           "group-data-[filled=true]:-translate-y-[calc(100%_+_theme(fontSize.tiny)/2_+_16px)]",
+          "group-data-[has-helper=true]:-translate-y-[calc(100%_+_theme(fontSize.small)/2_+_26px)]",
         ],
         base: "data-[has-label=true]:mt-[calc(theme(fontSize.small)_+_8px)]",
       },
@@ -702,6 +704,7 @@ const select = tv({
           "start-3",
           "text-small",
           "group-data-[filled=true]:-translate-y-[calc(100%_+_theme(fontSize.small)/2_+_20px)]",
+          "group-data-[has-helper=true]:-translate-y-[calc(100%_+_theme(fontSize.small)/2_+_30px)]",
         ],
         base: "data-[has-label=true]:mt-[calc(theme(fontSize.small)_+_10px)]",
       },
@@ -715,8 +718,31 @@ const select = tv({
           "start-3",
           "text-medium",
           "group-data-[filled=true]:-translate-y-[calc(100%_+_theme(fontSize.small)/2_+_24px)]",
+          "group-data-[has-helper=true]:-translate-y-[calc(100%_+_theme(fontSize.small)/2_+_34px)]",
         ],
         base: "data-[has-label=true]:mt-[calc(theme(fontSize.small)_+_12px)]",
+      },
+    },
+    // outside-left & size & hasHelper
+    {
+      labelPlacement: "outside-left",
+      size: "sm",
+      class: {
+        label: "group-data-[has-helper=true]:pt-2",
+      },
+    },
+    {
+      labelPlacement: "outside-left",
+      size: "md",
+      class: {
+        label: "group-data-[has-helper=true]:pt-3",
+      },
+    },
+    {
+      labelPlacement: "outside-left",
+      size: "lg",
+      class: {
+        label: "group-data-[has-helper=true]:pt-4",
       },
     },
     // isMultiline & labelPlacement="outside"

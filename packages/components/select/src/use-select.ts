@@ -7,6 +7,7 @@ import {
   mapPropsVariants,
   PropGetter,
   SharedSelection,
+  useLabelPlacement,
   useProviderContext,
 } from "@heroui/system";
 import {select} from "@heroui/theme";
@@ -31,6 +32,7 @@ import {useSafeLayoutEffect} from "@heroui/use-safe-layout-effect";
 import {ariaShouldCloseOnInteractOutside} from "@heroui/aria-utils";
 import {CollectionChildren, ValidationError} from "@react-types/shared";
 import {FormContext, useSlottedContext} from "@heroui/form";
+import {usePreventScroll} from "@react-aria/overlays";
 
 export type SelectedItemProps<T = object> = {
   /** A unique key for the item. */
@@ -346,19 +348,13 @@ export function useSelect<T extends object>(originalProps: UseSelectProps<T>) {
   const {focusProps, isFocused, isFocusVisible} = useFocusRing();
   const {isHovered, hoverProps} = useHover({isDisabled: originalProps.isDisabled});
 
-  const labelPlacement = useMemo<SelectVariantProps["labelPlacement"]>(() => {
-    if ((!originalProps.labelPlacement || originalProps.labelPlacement === "inside") && !label) {
-      return "outside";
-    }
-
-    return originalProps.labelPlacement ?? "inside";
-  }, [originalProps.labelPlacement, label]);
+  const labelPlacement = useLabelPlacement({
+    labelPlacement: originalProps.labelPlacement,
+    label,
+  });
 
   const hasPlaceholder = !!placeholder;
-  const shouldLabelBeOutside =
-    labelPlacement === "outside-left" ||
-    (labelPlacement === "outside" &&
-      (!(hasPlaceholder || !!description) || !!originalProps.isMultiline));
+  const shouldLabelBeOutside = labelPlacement === "outside-left" || labelPlacement === "outside";
   const shouldLabelBeInside = labelPlacement === "inside";
   const isOutsideLeft = labelPlacement === "outside-left";
 
@@ -371,6 +367,7 @@ export function useSelect<T extends object>(originalProps: UseSelectProps<T>) {
     !!originalProps.isMultiline;
   const hasValue = !!state.selectedItems?.length;
   const hasLabel = !!label;
+  const hasLabelOutside = hasLabel && (isOutsideLeft || (shouldLabelBeOutside && hasPlaceholder));
 
   const baseStyles = clsx(classNames?.base, className);
 
@@ -381,9 +378,8 @@ export function useSelect<T extends object>(originalProps: UseSelectProps<T>) {
         isInvalid,
         labelPlacement,
         disableAnimation,
-        className,
       }),
-    [objectToDeps(variantProps), isInvalid, labelPlacement, disableAnimation, className],
+    [objectToDeps(variantProps), isInvalid, labelPlacement, disableAnimation],
   );
 
   // scroll the listbox to the selected item
@@ -404,6 +400,10 @@ export function useSelect<T extends object>(originalProps: UseSelectProps<T>) {
       }
     }
   }, [state.isOpen, disableAnimation]);
+
+  usePreventScroll({
+    isDisabled: !state.isOpen,
+  });
 
   const errorMessage =
     typeof props.errorMessage === "function"
@@ -430,12 +430,13 @@ export function useSelect<T extends object>(originalProps: UseSelectProps<T>) {
       "data-has-label": dataAttr(hasLabel),
       "data-has-helper": dataAttr(hasHelper),
       "data-invalid": dataAttr(isInvalid),
+      "data-has-label-outside": dataAttr(hasLabelOutside),
       className: slots.base({
         class: clsx(baseStyles, props.className),
       }),
       ...props,
     }),
-    [slots, hasHelper, hasValue, hasLabel, isFilled, baseStyles],
+    [slots, hasHelper, hasValue, hasLabel, hasLabelOutside, isFilled, baseStyles],
   );
 
   const getTriggerProps: PropGetter = useCallback(
@@ -491,6 +492,7 @@ export function useSelect<T extends object>(originalProps: UseSelectProps<T>) {
         isRequired: originalProps?.isRequired,
         autoComplete: originalProps?.autoComplete,
         isDisabled: originalProps?.isDisabled,
+        form: originalProps?.form,
         onChange,
         ...props,
       } as HiddenSelectProps<T>),

@@ -1,7 +1,13 @@
 /* eslint-disable jsx-a11y/no-autofocus */
 import * as React from "react";
 import {render, act, fireEvent, waitFor, within} from "@testing-library/react";
-import {pointerMap, triggerPress} from "@heroui/test-utils";
+import {
+  errorSpy,
+  pointerMap,
+  shouldIgnoreReactWarning,
+  triggerPress,
+  warnSpy,
+} from "@heroui/test-utils";
 import userEvent from "@testing-library/user-event";
 import {CalendarDate, CalendarDateTime} from "@internationalized/date";
 import {HeroUIProvider} from "@heroui/system";
@@ -66,6 +72,7 @@ describe("DatePicker", () => {
     user = userEvent.setup({delay: null, pointerMap});
     jest.useFakeTimers();
   });
+
   afterEach(() => {
     act(() => {
       jest.runAllTimers();
@@ -235,7 +242,7 @@ describe("DatePicker", () => {
     it("should apply custom dateInput classNames", function () {
       const {getByText} = render(
         <DatePicker
-          dateInputClassNames={{
+          classNames={{
             inputWrapper: "border-green-500",
             label: "text-green-500",
           }}
@@ -376,12 +383,15 @@ describe("DatePicker", () => {
       expect(onFocusChangeSpy).not.toHaveBeenCalled();
       expect(onFocusSpy).not.toHaveBeenCalled();
 
-      triggerPress(button);
+      await user.click(button);
       act(() => jest.runAllTimers());
 
       let dialog = getByRole("dialog");
 
       expect(dialog).toBeVisible();
+      expect(onBlurSpy).not.toHaveBeenCalled();
+      expect(onFocusChangeSpy).toHaveBeenCalledTimes(1);
+      expect(onFocusSpy).toHaveBeenCalledTimes(1);
 
       //@ts-ignore
       fireEvent.keyDown(document.activeElement, {key: "Escape"});
@@ -402,9 +412,15 @@ describe("DatePicker", () => {
       expect(dialog).not.toBeInTheDocument();
       expect(document.activeElement).toBe(button);
       expect(button).toHaveFocus();
+      expect(onBlurSpy).not.toHaveBeenCalled();
+      expect(onFocusChangeSpy).toHaveBeenCalledTimes(1);
+      expect(onFocusSpy).toHaveBeenCalledTimes(1);
 
       await user.tab();
       expect(document.body).toHaveFocus();
+      expect(onBlurSpy).toHaveBeenCalledTimes(1);
+      expect(onFocusChangeSpy).toHaveBeenCalledTimes(2);
+      expect(onFocusSpy).toHaveBeenCalledTimes(1);
     });
 
     it("should trigger right arrow key event for segment navigation", async function () {
@@ -435,8 +451,6 @@ describe("DatePicker", () => {
   describe("Calendar popover", function () {
     it("should emit onChange when selecting a date in the calendar in controlled mode", function () {
       let onChange = jest.fn();
-      const consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
-      const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
 
       let {getByRole, getAllByRole, queryByLabelText} = render(
         <DatePicker
@@ -479,10 +493,16 @@ describe("DatePicker", () => {
       expect(onChange).toHaveBeenCalledWith(new CalendarDate(2019, 2, 4));
       expect(getTextValue(combobox)).toBe("2/3/2019"); // controlled
 
-      expect(consoleWarnSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).not.toHaveBeenCalled();
-      consoleWarnSpy.mockRestore();
-      consoleErrorSpy.mockRestore();
+      if (!shouldIgnoreReactWarning(warnSpy)) {
+        expect(warnSpy).not.toHaveBeenCalled();
+      }
+
+      if (!shouldIgnoreReactWarning(errorSpy)) {
+        expect(errorSpy).not.toHaveBeenCalled();
+      }
+
+      warnSpy.mockRestore();
+      errorSpy.mockRestore();
     });
 
     it("should emit onChange when selecting a date in the calendar in uncontrolled mode", function () {
@@ -783,13 +803,12 @@ describe("DatePicker", () => {
 
     it("supports validate function", async () => {
       const {getByRole, getByTestId} = render(
-        <Form data-testid="form">
+        <Form data-testid="form" validationBehavior="native">
           <DatePicker
             defaultValue={new CalendarDate(2020, 2, 3)}
             label="Value"
             name="date"
             validate={(v) => (v.year < 2022 ? "Invalid value" : null)}
-            validationBehavior="native"
           />
         </Form>,
       );
@@ -831,8 +850,8 @@ describe("DatePicker", () => {
         };
 
         return (
-          <Form validationErrors={serverErrors} onSubmit={onSubmit}>
-            <DatePicker label="Value" name="date" validationBehavior="native" />
+          <Form validationBehavior="native" validationErrors={serverErrors} onSubmit={onSubmit}>
+            <DatePicker label="Value" name="date" />
             <button data-testid="submit" type="submit">
               Submit
             </button>
@@ -871,7 +890,7 @@ describe("DatePicker", () => {
     describe("validationBehavior=aria", () => {
       it("supports minValue and maxValue", async () => {
         const {getByRole} = render(
-          <Form data-testid="form">
+          <Form data-testid="form" validationBehavior="aria">
             <DatePicker
               defaultValue={new CalendarDate(2019, 2, 3)}
               label="Date"
@@ -904,7 +923,7 @@ describe("DatePicker", () => {
 
       it("supports validate function", async () => {
         const {getByRole} = render(
-          <Form data-testid="form">
+          <Form data-testid="form" validationBehavior="aria">
             <DatePicker
               defaultValue={new CalendarDate(2020, 2, 3)}
               label="Value"
@@ -931,7 +950,7 @@ describe("DatePicker", () => {
 
       it("supports server validation", async () => {
         const {getByRole} = render(
-          <Form validationErrors={{value: "Invalid value"}}>
+          <Form validationBehavior="aria" validationErrors={{value: "Invalid value"}}>
             <DatePicker defaultValue={new CalendarDate(2020, 2, 3)} label="Value" name="value" />
           </Form>,
         );
